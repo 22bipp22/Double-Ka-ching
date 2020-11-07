@@ -10,8 +10,8 @@ from flask import Flask, jsonify
 #################################################
 engine = create_engine("sqlite:///Resources/texas_counties.sqlite")
 
-inspector = inspect(engine)
-print(inspector.get_table_names())
+# inspector = inspect(engine)
+# print(inspector.get_table_names())
 
 County = pd.read_sql_query("Select * from counties", engine)
 
@@ -29,7 +29,12 @@ app = Flask(__name__)
 #################################################
 
 @app.route("/")
-def welcome():
+def home():
+    return render_template("index.html")
+
+@app.route("/api/county")
+def county():
+
      # Create our session (link) from Python to the DB
     session = Session(engine)
 
@@ -41,7 +46,7 @@ def welcome():
     all_counties = list(np.ravel(results))
 
     return jsonify(all_counties)
-
+    
 
 if __name__ == '__main__':
     app.run(debug=True)
