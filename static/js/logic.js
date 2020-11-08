@@ -1,3 +1,4 @@
+
 // Code for configuration of the map
 
 // Set longitude, latitude, and starting zoom
@@ -18,3 +19,4 @@ L.tileLayer("https://api.mapbox.com/styles/v1/tiarasgreen/ckh9kn3dq1r4j19lxxogt3
     zoomOffset: -1,
    accessToken: API_KEY
 }).addTo(countyMAP);
+
