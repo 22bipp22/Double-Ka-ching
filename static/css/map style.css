@@ -1,0 +1,16 @@
+//
+
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#map,
+body,
+html {
+    height: 50%;
+}
+
+.leaflet-popup-content {
+    text-align: center;
+}
