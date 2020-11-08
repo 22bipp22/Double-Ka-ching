@@ -44,11 +44,11 @@ def county():
     session = Session(engine)
 
     # Query all counties
-    results = session.query(County).all()
+    data = session.query(County).all()
 
     session.close()
 
-    all_counties = list(np.ravel(results))
+    all_counties = list(np.ravel(data))
 
     return jsonify(all_counties)
     
