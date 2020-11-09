@@ -13,7 +13,7 @@ let svg = d3.select("myDiv")
 let chartGroup = svg.append("g")
     .attr("transform", "translate("+width / 2 + "," + height / 2 + ")");
 
-d3.csv("../output/complete.csv").then(function(countyData) {
+d3.csv("../../output/complete.csv").then(function(countyData) {
   console.log(countyData);
 
   countyData.forEach(function(data){
