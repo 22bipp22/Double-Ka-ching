@@ -45,7 +45,17 @@ function buildPlot() {
         .attr("stroke", colors[i])
         .attr("stroke-width", "2")
         .attr("opacity", "25%")
-        .attr("fill", colors[i]);
+        .attr("fill", colors[i])
+        .on("mouseover", function() {
+          d3.select(this)
+            .attr('fill', 'greay')
+        })
+        .on("mouseout", function() {
+          d3.select(this)
+            .attr('fill', colors[i])
+        })
+        .on("click", mapOverlay(circleText[i]))
+    
 
     chartGroup.append('text')
       .html(circleText[i])

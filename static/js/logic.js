@@ -8,6 +8,7 @@
 //     zoom: 4
 // });
 
+
 var countyMap = L.map("map",{
     center:[31.319547, -100.076758],
     zoom: 7
@@ -20,7 +21,11 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     zoomOffset: -1,
     id: "mapbox/streets-v11",
     accessToken: API_KEY
-  }).addTo(countyMap);
+}).addTo(countyMap);
+
+function mapOverlay(data) {
+    console.log(data)
+};
 
 
 
