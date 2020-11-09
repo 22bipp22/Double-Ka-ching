@@ -3,6 +3,7 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func, inspect
 import pandas as pd
+import numpy as np
 import os
 from flask import (
     Flask, 
@@ -22,8 +23,10 @@ app = Flask(__name__)
 
 engine = create_engine("sqlite:///Resources/texas_counties.sqlite")
 
-# # # inspector = inspect(engine)
-# # # print(inspector.get_table_names())
+
+# County = Base.classes
+# inspector = inspect(engine)
+# print(inspector.get_table_names())
 
 County = pd.read_sql_query("Select * from counties", engine)
 
@@ -35,20 +38,16 @@ County = pd.read_sql_query("Select * from counties", engine)
 
 @app.route("/")
 def home():
+    
     return render_template("index.html");
+
 
 @app.route("/api/county")
 def county():
+    
+    result = County
 
-    #  Create our session (link) from Python to the DB
-    session = Session(engine)
-
-    # Query all counties
-    data = session.query(County).all()
-
-    session.close()
-
-    all_counties = list(np.ravel(data))
+    all_counties = list(np.ravel(result))
 
     return jsonify(all_counties)
     
