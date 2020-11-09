@@ -1,13 +1,12 @@
 function buildPlot() {
   /* data route */
-  const url = "/api/county";
-  d3.json(url).then(function(response) {
+  let url = "/api/county";
+  d3.json(url).then(function(data) {
+    console.log(data)
+});
 
-    console.log(response);
-
-
-    // Plotly.newPlot("plot", data, layout);
-  });
+// let dataPromise = d3.json(url);
+// console.log("Data Promise: ", dataPromise);
 }
 
 buildPlot();
