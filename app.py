@@ -13,24 +13,29 @@ from flask import (
     redirect)
 
 #################################################
-# Flask Setup
-#################################################
-app = Flask(__name__)
-
-#################################################
 # Database Setup
 #################################################
 
 engine = create_engine("sqlite:///Resources/texas_counties.sqlite")
 
+<<<<<<< Updated upstream
 
 # County = Base.classes
 # inspector = inspect(engine)
 # print(inspector.get_table_names())
+=======
+inspector = inspect(engine)
+print(inspector.get_table_names())
+>>>>>>> Stashed changes
 
-County = pd.read_sql_query("Select * from counties", engine)
+# County = pd.read_sql_query("Select  from counties", engine)
 
 # print(County)
+
+#################################################
+# Flask Setup
+#################################################
+app = Flask(__name__)
 
 #################################################
 # Flask Routes
@@ -47,7 +52,19 @@ def county():
     
     result = County
 
+<<<<<<< Updated upstream
     all_counties = list(np.ravel(result))
+=======
+    #  Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    # Query all counties
+    data = session.query(counties).all()
+
+    session.close()
+
+    all_counties = list(np.ravel(data))
+>>>>>>> Stashed changes
 
     return jsonify(all_counties)
     
