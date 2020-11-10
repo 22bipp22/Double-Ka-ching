@@ -1,3 +1,12 @@
+// Need to connect to sqlite instead of csv
+// Need to ensure each cateogry has overall % 
+// Poverty rate already in % - Need the difference
+// Crime rate already in % - Need the differece
+// Income 
+// Population rate -- Need to calculate % 
+// Unemployment rate already in % -- Need the difference
+
+
 //Start donut chart plots
 let width = 450,
         height = 500,
@@ -12,8 +21,15 @@ let svg = d3.select("#myDiv")
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
 
-d3.csv("../output/population.csv").then(function(data){
+d3.csv("../output/complete.csv").then(function(data){
   console.log(data);
+
+  let total_pop = d3.sum(function(data) {
+    return data.Population;
+  });
+    
+    console.log("Population")  
+    console.log(total_pop)
 
   let color = d3.scaleOrdinal()
     .domain(data)
