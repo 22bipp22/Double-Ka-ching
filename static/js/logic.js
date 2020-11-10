@@ -24,9 +24,40 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 //load in Geojson data 
 
-var geoData = "static/data/complete.geojson";
+const url = "/api/county";
+  d3.json(url).then(function(response) {
 
+    console.log(response);
+   
+    let features = [{}]
+    
+    for (let i =0; i < 253; i++) {  
+      features.push({
+          // "type": "FeatureCollection", 
+          // "features": {
+              "type": "Feature",
+              "geometery": {
+                "type": "Point",
+                "coordinates": [response.Latitude[i], response.Longitude[i]]
+              },        
+              "properties": {
+                "county": response.County[i],
+                "income": response["Median Household Income"][i],
+                "population": response.Population[i],
+                "poverty": response["Poverty Percent"][i],
+                "crime": response.Total_Crime[i],
+                "unemployment": response["Unemployment Rate (%)"][i]
+              }
+          
+            })
+          // })
+          
+        }
+        let geoData = [{"type": "FeatureCollection", 
+        "features": {features}}]
+        console.log(geoData)
 
+      })
 //L.geoJson(geoData).addTo(countyMap);
 
 //var geojson
@@ -34,6 +65,7 @@ var geoData = "static/data/complete.geojson";
 // Grab data with d3
 d3.json (geoData, function(data){
 
+})
 // geojson = L.choropleth(data, {
 //  // Define what  property in the features to use
 //   valueProperty: 'Population',
@@ -60,8 +92,8 @@ d3.json (geoData, function(data){
       fillOpacity: 0.7
     }
 
-
   }
+  
 
 
 
@@ -69,7 +101,7 @@ d3.json (geoData, function(data){
    function onEachFeature (data, layer) {
     layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
 }
-})
+
 
 
 function style(data){
@@ -125,7 +157,3 @@ L.geoJson(geoData, {style: style}).addTo(countyMap);
 // Adding legend to the map
 // legend.addTo(countyMap);
 //})
-
-
-
-
