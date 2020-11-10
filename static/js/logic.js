@@ -39,7 +39,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     // Number of breaks in step range
     //steps: 10,
     // q for quantile, e for equidistant, k for k-means
-   // mode: "e",
+   // mode: "q",
     // border styling
     //style: {
      // color: "#fff",
@@ -48,7 +48,7 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
     //},
     // Binding a pop-up to each layer
     //onEachFeature: function(feature, layer) {
-      //layer.bindPopup("Zip Code: " + feature.properties.ZIP + "<br>Median Household Income<br>" + "$" + feature.properties.MHI2016)
+      //layer.bindPopup("County: " + feature.properties.County + "<br>Population<br>" + "$" + feature.properties.MHI2016)
   //  }
   //}).addTo(myMap);
 
