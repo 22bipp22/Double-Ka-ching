@@ -41,7 +41,7 @@ function mapOverlay() {
         }
         let geoData = [{"type": "FeatureCollection", 
         "features": {features}}]
-        // console.log(geoData)
+        console.log(geoData)
 
     // Grab data with d3
     d3.json(geoData, function(data){
