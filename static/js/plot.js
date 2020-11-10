@@ -1,8 +1,8 @@
 // Need to connect to sqlite instead of csv
 // Need to ensure each cateogry has overall % 
 // Poverty rate already in % - Need the difference
-// Crime rate already in % - Need the differece
-// Income 
+// Total_Crime - Show in the side
+// Income - Show on the side 
 // Population rate -- Need to calculate % 
 // Unemployment rate already in % -- Need the difference
 
@@ -24,6 +24,7 @@ let svg = d3.select("#myDiv")
 d3.csv("../output/complete.csv").then(function(data){
   console.log(data);
 
+  
   let total_pop = d3.sum(function(data) {
     return data.Population;
   });
