@@ -54,7 +54,7 @@ function buildPlot() {
           d3.select(this)
             .attr('fill', colors[i])
         })
-        .on("click", mapOverlay(circleText[i]))
+        // .on("click", mapOverlay(circleText[i]))
     
 
     chartGroup.append('text')
