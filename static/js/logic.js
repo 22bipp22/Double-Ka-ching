@@ -46,11 +46,11 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
       //weight: 1,
       //fillOpacity: 0.8
     //},
-    // Binding a pop-up to each layer
+    // Binding a pop-up to each layer 
     //onEachFeature: function(feature, layer) {
       //layer.bindPopup("County: " + feature.properties.County + "<br>Population<br>" + feature.properties.MHI2016)
   //  }
-  //}).addTo(myMap);
+  //}).addTo(countyMap);
 
 
 
