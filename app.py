@@ -5,6 +5,7 @@ from sqlalchemy import create_engine, func, inspect
 import pandas as pd
 import numpy as np
 import os
+import json
 from flask import (
     Flask, 
     jsonify, 
@@ -16,16 +17,16 @@ from flask import (
 # Database Setup
 #################################################
 
-engine = create_engine("sqlite:///Resources/texas_counties.sqlite")
+# engine = create_engine("sqlite:///Resources/texas_counties.sqlite")
 
 
-# County = Base.classes
-# inspector = inspect(engine)
-# print(inspector.get_table_names())
+# # County = Base.classes
+# # inspector = inspect(engine)
+# # print(inspector.get_table_names())
 
-County = pd.read_sql_query("Select * from counties", engine)
+# County = pd.read_sql_query("Select * from counties", engine)
 
-print(County)
+# print(County)
 
 #################################################
 # Flask Setup
@@ -45,23 +46,30 @@ def home():
 
 @app.route("/api/county")
 def county():
+
+    f = open('output/complete.json')
     
-    session = Session(engine)
-    result = session.query(County).all()
-    session.close()
+    data = json.loads(f.read())
 
-    # all_counties = list(np.ravel(result))
+    f.close()
 
-    # Create a dictionary from the row data and append to a list of all_passengers
-    all_counties = []
-    for result in results:
-        counties_dict = {}
-        counties_dict["county"] = result[0]
+    return jsonify(data)
+    # session = Session(engine)
+    # result = session.query(County).first()
+    # session.close()
+
+    # # all_counties = list(np.ravel(result))
+
+    # # Create a dictionary from the row data and append to a list of all_passengers
+    # all_counties = []
+    # for county in results:
+    #     counties_dict = {}
+    #     counties_dict["county"] = county
         
-        all_counties.append(counties_dict)
+    #     all_counties.append(counties_dict)
 
 
-    return jsonify(all_counties)
+    # return jsonify(all_counties)
     
     
 
