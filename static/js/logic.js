@@ -29,7 +29,7 @@ function mapOverlay(data) {
 
   //load in Geojson data 
 
-  var geoData = "static/data/complete.geojson";
+  var geoData = "../data/complete.geojson";
 
 
   //L.geoJson(geoData).addTo(countyMap);
