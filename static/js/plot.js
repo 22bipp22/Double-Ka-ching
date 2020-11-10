@@ -1,20 +1,63 @@
-// Need to connect to sqlite instead of csv
-// Need to ensure each cateogry has overall % 
-// Poverty rate already in % - Need the difference
-// Total_Crime - Show in the side
-// Income - Show on the side 
-// Population rate -- Need to calculate % 
-// Unemployment rate already in % -- Need the difference
+let total_population = 0
+
+d3.csv("../output/complete.csv").then(function (data) {
+  data.forEach(function (d) {
+    total_population = +d.Population;
+  });
+
+  console.log("total_population");
+  console.log(total_population);
+});
+
+let select_tag = d3.select("#selDataset");
+
+d3.csv("../output/complete.csv").then(function (data) {
+  data.forEach(function (d) {
+    select_tag
+      .append("option")
+      .property("value", d.County)
+      .text(d.County);
+  });
+});
+
+function optionChanged(name) {
+  console.log("County name=", name);
+
+  county_info(name)
+}
+
+function county_info(countyName) {
+  d3.csv("../output/complete.csv").then(function (data) {
+    data.forEach(function (d) {
+      if (d.County == countyName) {
+        income = d.Median_Household_Income
+        crime = d.Total_Crime
+        population = d.Population
+        // console.log("county_info");
+        // console.log(crime);
+      }
+    });
+
+    let fig = d3.select("#county-metadata");
+    fig.html("");
+
+    // fig.append("h2").text(`County:`);
+    fig.append("h2").text(`Name: ${countyName}`);
+    fig.append("h2").text(`Median Household Income: ${income}`);
+    fig.append("h2").text(`Total Crime Events: ${crime}`);
+    fig.append("h2").text(`Population: ${population}`);
+  });
+}
 
 
 //Start donut chart plots
-let width = 450,
-        height = 500,
+let width = 250,
+        height = 250,
         margin = 40
 
 let radius = Math.min(width,height) / 2 - margin
 
-let svg = d3.select("#myDiv")
+let svg = d3.select("#populationDiv")
   .append("svg")
     .attr("width", width)
     .attr("height", height)
@@ -43,7 +86,7 @@ d3.csv("../output/complete.csv").then(function(data){
   let path = d3.arc()
         .innerRadius(100)
         .outerRadius(radius - 10)
-    // let data_ready = pie(d3.entries(countyData.County))
+    let data_ready = pie(d3.entries(data.County))
   let label = d3.arc()
       .innerRadius(radius-80)
       .outerRadius(radius)
