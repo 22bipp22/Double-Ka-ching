@@ -1,35 +1,10 @@
-// Calculate the total pupulation of Texas
-let total_population = 0
-
-d3.csv("../output/complete.csv").then(function (data) {
-  data.forEach(function (d) {
-    total_population += parseInt(d.Population);
-  });
-
-  console.log("total_population");
-  console.log(total_population);
-});
-
-//Already have the Poverty Percent but this gives the difference ex 32% pvoerty
-// 68% not in poverty
-let total_poverty = 0
-
-d3.csv("../output/complete.csv").then(function (data) {
-  data.forEach(function (d) {
-    total_poverty = d.Population * (d.Poverty_Percent*.01);
-  });
-
-  console.log("total_poverty");
-  console.log(total_poverty);
-});
-
 let select_tag = d3.select("#selDataset");
 
 d3.csv("../output/complete.csv").then(function (data) {
   select_tag
     .append("option")
     .property("value", "")
-    .text("Pick a county");
+    .text(" ");
   data.forEach(function (d) {
     select_tag
       .append("option")
@@ -42,90 +17,192 @@ function optionChanged(name) {
   console.log("County name=", name);
 
   county_info(name)
+  // county_population(name)
+  county_poverty(name)
+  county_unemployed(name)
+  county_crime(name)
+  
 }
 
 function county_info(countyName) {
   d3.csv("../output/complete.csv").then(function (data) {
     data.forEach(function (d) {
       if (d.County == countyName) {
-        income = d.Median_Household_Income
-        crime = d.Total_Crime
-        population = d.Population
-        // console.log("county_info");
-        // console.log(crime);
+        income = d3.format("($,.2f")(d.Median_Household_Income)
+        crime = d3.format(".0f")(d.Total_Crime)
+        population = d3.format(",")(d.Population)
       }
     });
 
     let fig = d3.select("#county-metadata");
     fig.html("");
-
-    // fig.append("h2").text(`County:`);
+    
     fig.append("h2").text(`Name: ${countyName}`);
-    fig.append("h2").text(`Median Household Income: ${income}`);
-    fig.append("h2").text(`Total Crime Events: ${crime}`);
-    fig.append("h2").text(`Population: ${population}`);
+    fig.append("h2").text(`Median household income: ${income}`);
+    fig.append("h2").text(`Total crime events: ${crime}`);
+    fig.append("h2").text(`County population: ${population}`);
   });
 }
 
-//Start donut chart plots
-    let width = 250,
-            height = 250,
-            margin = 40
-
-    let radius = Math.min(width,height) / 2 - margin
-
-    let svg = d3.select("#populationDiv")
-      .append("svg")
-        .attr("width", width)
-        .attr("height", height)
-      .append("g")
-        .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-function donut(countyName) {
-    d3.csv("../output/complete.csv").then(function(data){
-     data.forEach(function(d){
-       if(d.county == countyName){
-        
-
-        let color = d3.scaleOrdinal()
-          .domain(data)
-          .range(d3.schemeDark2)
-
-        let pie = d3.pie().value(function(data){
-          return data.Population;
-        });
-
-        let path = d3.arc()
-              .innerRadius(100)
-              .outerRadius(radius - 10)
-          // let data_ready = pie(d3.entries(data.County))
-        let label = d3.arc()
-            .innerRadius(radius-80)
-            .outerRadius(radius)
-
-        let arc = svg.selectAll(".arc")
-                    .data(pie(data))
-                    .enter()
-                  
-
-          arc.append("path")
-            .attr("d", path)
-            .attr("fill", function(d) { return color(d.data.countyName); });
-
-          console.log(arc)
-
-          arc.append("text")
-              .attr("transform", function(d) { 
-                      return "translate(" + label.centroid(d) + ")"; 
-              })
-              .text(function(d) { return d.data.countyName; });
-        }
-      }) 
-    });
-}
-        svg.append("g")
-            .attr("transform", "translate(" + (width / 2 - 120) + "," + 20 + ")")
-            .append("text")
-            .text("Population")
-            .attr("class", "title")
+// function county_population(countyName) {
+//   d3.csv("../output/complete.csv").then(function (data) {
+//     data.forEach(function (d) {
+//       if (d.County == countyName) {
+//       total_population = d.Population;
+//       }
+//     });
   
+//     console.log("County_population: ", total_population);
+//   });
+// }
+
+function county_poverty(countyName) {
+  d3.csv("../output/complete.csv").then(function (data) {
+    data.forEach(function (d) {
+      if (d.County == countyName) {
+        poverty_pop = d.Population * (d.Poverty_Percent*.01);
+        not_poverty = d.Population - poverty_pop
+      }
+    });
+  
+    console.log("County_poverty: ", poverty_pop);
+
+     let poverty_data = {
+      "in_poverty": poverty_pop,
+      "not_poverty": not_poverty
+    }
+  
+    let trace1 = [
+      {
+          values: [poverty_pop, not_poverty] ,   
+          text: ["In poverty"],
+          marker: {
+              colors: ["lightblue", "navy"]
+          },
+          hole: .4,
+          type: 'pie',
+          rotation: 90,
+          direction: "clockwise",
+          // textinfo: 'text',
+          // textposition: 'inside',
+          showlegend: false,
+          domain: {
+              row:0,
+              column: 0
+            },
+      }
+  ];
+  let layout = { width: 600,
+      height: 600,
+      margin: { t: 45, b: 10 },
+      title: "Poverty Rate",
+      font: { color: "royalblue", family: "Arial", size: 18 },    
+    }
+
+    Plotly.newPlot('povertyDiv', trace1, layout);
+
+  });
+  
+
+}
+
+function county_unemployed(countyName) {
+  d3.csv("../output/complete.csv").then(function (data) {
+    data.forEach(function (d) {
+      if (d.County == countyName) {
+        unemployed_pop = d.Population * (d.Unemployment_Rate*.01);
+        employed_pop = d.Population - unemployed_pop
+      }
+    });
+  
+    console.log("County_unemployed ", unemployed_pop);
+
+     let poverty_data = {
+      "unemployed": unemployed_pop,
+      "employed": employed_pop
+    }
+  
+    let trace2 = [
+      {
+          values: [unemployed_pop, employed_pop] ,   
+          text: ["Unemployed", "Employed"],
+          marker: {
+              colors: ["lightblue", "navy"]
+          },
+          hole: .4,
+          type: 'pie',
+          rotation: 90,
+          direction: "clockwise",
+          // textinfo: 'text',
+          // textposition: 'inside',
+          showlegend: false,
+          domain: {
+              row: 1,
+              column: 0
+            },
+      }
+  ];
+  let layout = { width: 600,
+      height: 600,
+      margin: { t: 45, b: 10 },
+      title: "Unemployment Rate",
+      font: { color: "royalblue", family: "Arial", size: 18 },       
+    }
+
+    Plotly.newPlot('unemployedDiv', trace2, layout);
+
+  });
+  
+
+}
+
+function county_crime(countyName) {
+  d3.csv("../output/complete.csv").then(function (data) {
+    data.forEach(function (d) {
+      if (d.County == countyName) {
+        violent_crime= (d.Violent_Crime / d.Total_Crime)*.01;
+        property_crime = (d.Property_Crime / d.Total_Crime)*.01;
+      }
+    });
+  
+    console.log("Vioulent_crime ", violent_crime);
+    console.log("Property_crime ", property_crime);
+
+     let crime_data = {
+      "violent": violent_crime,
+      "property": property_crime
+    }
+  
+    let trace3 = [
+      {
+          values: [violent_crime, property_crime] ,   
+          text: ["Violent", "Property"],
+          marker: {
+              colors: ["lightblue", "navy"]
+          },
+          hole: .4,
+          type: 'pie',
+          rotation: 90,
+          direction: "clockwise",
+          // textinfo: 'text',
+          // textposition: 'inside',
+          showlegend: false,
+          domain: {
+              row: 0,
+              column: 1
+            },
+      }
+  ];
+  let layout = { width: 600,
+      height: 600,
+      margin: { t: 45, b: 10 },
+      title: "Total Crime",
+      font: { color: "royalblue", family: "Arial", size: 18 },       
+    }
+
+    Plotly.newPlot('crimeDiv', trace3, layout);
+
+  });
+  
+
+}
