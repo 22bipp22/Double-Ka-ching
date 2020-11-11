@@ -5,7 +5,7 @@
 - Gina Ramirez
 
 ## Description
-Double-Ka-ching is a site that will allow a user to determine which county is the best fit for them depending on key demographic data.
+Double-Ka-ching is a site that will allow a user to determine which Texas county is the best fit for them depending on key demographic data.
  - Poverty
  - Population
  - Crime
