@@ -157,3 +157,6 @@ L.geoJson(geoData, {style: style}).addTo(countyMap);
 // Adding legend to the map
 // legend.addTo(countyMap);
 //})
+function mapOverlay(data) {
+  console.log(data)
+}

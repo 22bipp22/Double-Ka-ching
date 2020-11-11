@@ -25,7 +25,7 @@ function buildPlot() {
         (segmentWidth*4 - segmentWidth/2),
         (segmentWidth*5 - segmentWidth/2)];
   let colors = ["red", "yellow", "green", "blue", "orange"]
-  let circleText = ["  Population", "     Income", "    Poverty", "     Crime", "Unemployment"]
+  let circleText = ["Population", "Income", "Poverty", "Crime", "Unemployment"]
 
 
   for (let i = 0; i < rValues.length; i++) {
@@ -46,15 +46,20 @@ function buildPlot() {
         .attr("stroke-width", "2")
         .attr("opacity", "25%")
         .attr("fill", colors[i])
+        .html(circleText[i])
         .on("mouseover", function() {
           d3.select(this)
-            .attr('fill', 'greay')
+            .attr('fill', 'gray')
         })
         .on("mouseout", function() {
           d3.select(this)
             .attr('fill', colors[i])
         })
-        // .on("click", mapOverlay(circleText[i]))
+        .on('click', function(){
+          selectItem = d3.select(this);
+          selectValue = selectItem.html();
+          mapOverlay(selectValue)
+        })
     
 
     chartGroup.append('text')
@@ -62,8 +67,6 @@ function buildPlot() {
       .attr('font-size', "12px")
       .attr("x", "15")
       .attr("y", "50")
-// let dataPromise = d3.json(url);
-// console.log("Data Promise: ", dataPromise);
     
   };
 }
