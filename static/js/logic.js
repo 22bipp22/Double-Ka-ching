@@ -3,7 +3,7 @@
 
 let countyMap = L.map("map",{
   center:[31.319547, -100.076758],
-  zoom: 7
+  zoom: 6
 });
 
 L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
