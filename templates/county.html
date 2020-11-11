@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Texas Counties</title>
+  <title>County Data</title>
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
@@ -22,30 +22,39 @@
 
   <div class="container">
     <div class="jumbotron" style="text-align: center">
-      <h1>Texas Counties</h1>
-      <p>Select a menu option from circles below</p>
-    </div>
-
-    <div id="svg-area"></div>
-
-    <!-- Donut chart and county data -->
-    <div class="row">
+      <h1>County Data</h1>
       <div class="col-md-12">
-          <h2><a href="/send">Click here to see data by county</a></h2>
-      </div>
-  </div>
-      
-      <div class="row">
-        <div class="col-md-6">
-          <h2>Heat Map</h2>
+        <div class="well">
+          <h2>Select a county:</h2>
+          <select id="selDataset"onchange="optionChanged(this.value)" href="/county.html"></select>
         </div>
-      </div>
-      
+    </div>
+  </div>
     
+  <div class="container"> 
+    <div class="row">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title"></h3>
+        </div>
+        <div id="county-metadata" class="panel-body"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class"col-md-5">
+        <div id="povertyDiv"></div>
+      </div>
+      <div class"col-md-5">
+        <div id="unemployedDiv"></div>
+      </div>
+      <div class"col-md-5">
+        <div id="crimeDiv"></div>
+      </div>
+    </div>   
+        
   </div> 
 
-  <div id="map"></div> 
-  <!-- <div id="map"></div> -->
+  
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
     integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
@@ -59,12 +68,12 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <!-- API key -->
-  <script type="text/javascript" src="../static/js/config.js"></script>
+  <!-- <script type="text/javascript" src="../static/js/config.js"></script> -->
   
   <!-- Our JavaScript -->
-  <script type="text/javascript" src="../static/js/logic.js"></script>
-  <script type="text/javascript" src="../static/js/app.js"></script>
-  <!-- <script type="text/javascript" src="../static/js/plot.js"></script> -->
+  <!-- <script type="text/javascript" src="../static/js/logic.js"></script>
+  <script type="text/javascript" src="../static/js/app.js"></script> -->
+  <script type="text/javascript" src="../static/js/plot.js"></script>
   
 
 </body>

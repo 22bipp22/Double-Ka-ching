@@ -54,6 +54,22 @@ def county():
     f.close()
 
     return jsonify(data)
+
+
+@app.route("/send")
+def send():
+    # if request.method == "POST":
+    #     name = request.form["petName"]
+    #     lat = request.form["petLat"]
+    #     lon = request.form["petLon"]
+
+    #     pet = Pet(name=name, lat=lat, lon=lon)
+    #     db.session.add(pet)
+    #     db.session.commit()
+    #     return redirect("/", code=302)
+
+    return render_template("county.html")
+
     # session = Session(engine)
     # result = session.query(County).first()
     # session.close()
