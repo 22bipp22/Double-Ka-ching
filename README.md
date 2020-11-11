@@ -1,2 +1,6 @@
 # Double-Ka-ching
-Project 2
+## Team members
+- Tammi Bippert
+- Tiara Green
+- Gina Ramirez
+
