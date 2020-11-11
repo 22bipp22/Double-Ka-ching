@@ -12,6 +12,10 @@ d3.csv("../output/complete.csv").then(function (data) {
 let select_tag = d3.select("#selDataset");
 
 d3.csv("../output/complete.csv").then(function (data) {
+  select_tag
+    .append("option")
+    .property("value", "")
+    .text("Pick a county");
   data.forEach(function (d) {
     select_tag
       .append("option")
@@ -46,11 +50,12 @@ function county_info(countyName) {
     fig.append("h2").text(`Median Household Income: ${income}`);
     fig.append("h2").text(`Total Crime Events: ${crime}`);
     fig.append("h2").text(`Population: ${population}`);
-  });
-}
+//   });
+// }
 
 
 //Start donut chart plots
+
 let width = 250,
         height = 250,
         margin = 40
@@ -66,14 +71,6 @@ let svg = d3.select("#populationDiv")
 
 d3.csv("../output/complete.csv").then(function(data){
   console.log(data);
-
-  
-  let total_pop = d3.sum(function(data) {
-    return data.Population;
-  });
-    
-    console.log("Population")  
-    console.log(total_pop)
 
   let color = d3.scaleOrdinal()
     .domain(data)
@@ -94,7 +91,7 @@ d3.csv("../output/complete.csv").then(function(data){
   let arc = svg.selectAll(".arc")
               .data(pie(data))
               .enter()
-             
+            
 
     arc.append("path")
       .attr("d", path)
@@ -114,3 +111,6 @@ d3.csv("../output/complete.csv").then(function(data){
         .append("text")
         .text("Population")
         .attr("class", "title")
+
+  });
+}
