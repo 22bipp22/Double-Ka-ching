@@ -13,6 +13,15 @@ body,
   
 }
 
+#povertyDiv {
+  height: 10%;
+  padding: 10;
+  margin-left: 10;
+  margin-bottom: 20;
+  width: 10%;
+  
+}
+
 /* #map, 
   body,
   html {

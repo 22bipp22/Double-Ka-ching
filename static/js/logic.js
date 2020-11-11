@@ -113,10 +113,10 @@ function getColor(d){
           d > 100000  ? '40%' :
           d > 50000   ? '20%' :
           d > 10000   ? '5%' :
-                        '5%' ;
-                         
+                        '5%' ;                         
   
 }
+
 function getColorIncome(d){
   return  d > 100000 ? '100%' :
           d > 80000  ? '75%' :
@@ -153,50 +153,3 @@ function getColorUnemploy(d){
                      '5%';                        
   
 }
-
-// function getColor(d){
-//   return  d > 10000000 ? '#800026' :
-//           d > 2000000  ? '#E31A1C' :
-//           d > 100000   ? '#FC4E2A' :
-//           d > 50000    ? '#FD8D3C' :
-//           d > 20000    ? '#FEB24C' :
-//           d > 10000    ? '#FED976' :
-//                          '#FFEDA0';
-  
-// }
-
-
-
-///**Code to make GEOJson .... Not needed
-
-// let features = [{}]
-    //   features.push({
-    //       // "type": "FeatureCollection", 
-    //       // "features": {
-    //           "type": "Feature",
-    //           "geometery": {
-    //             "type": "Point",
-    //             "coordinates": [response.Latitude[i], response.Longitude[i]]
-    //           },        
-    //           "properties": {
-    //             "county": response.County[i],
-    //             "income": response["Median Household Income"][i],
-    //             "population": response.Population[i],
-    //             "poverty": response["Poverty Percent"][i],
-    //             "crime": response.Total_Crime[i],
-    //             "unemployment": response["Unemployment Rate (%)"][i]
-    //           }
-          
-    //         })
-    //       } 
-        
-    //   let geoData = {"features": [{features}]}
-    //     console.log(geoData)
-
-    //  //iterate through the returned data
-    //  for (let i = 1; i < features.length; i++) {
-    //     let location = features[i].geometery;
-    //     let properties = features[i].properties;
-  
-
-      // console.log(properties); */
