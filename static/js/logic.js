@@ -66,6 +66,8 @@ const url = "/api/county";
 d3.json (geoData, function(data){
 
 })
+
+
 // geojson = L.choropleth(data, {
 //  // Define what  property in the features to use
 //   valueProperty: 'Population',
@@ -94,12 +96,44 @@ d3.json (geoData, function(data){
 
   }
   
+  function getColor(population){
+    return d > 10000000 ? '#800026' :
+    d > 2000000  ? '#E31A1C' :
+    d > 100000  ? '#FC4E2A' :
+    d > 50000  ? '#FD8D3C' :
+    d > 20000   ? '#FEB24C' :
+    d > 10000  ? '#FED976' :
+               '#FFEDA0';
+    
+    }
 
-
+     //iterate through the returned data
+     for (let i = 0; i < features.length; i++) {
+      let location = features[i].geometry;
+      let properties = features[i].properties;
 
   //Binding a pop-up to each layer 
    function onEachFeature (data, layer) {
     layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
+}
+
+      console.log(location);
+      console.log(properties);
+      
+      //Create a circle at each earthquake point
+      L.circle([location.coordinates[1], location.coordinates[0]], {
+          fillOpacity: 0.95,
+          color: "black",
+          weight: 1,
+          fillColor: getColor(location.coordinates[2]),
+          }).bindPopup("<h2>" + properties.county + "</h2> <hr> <h3> " + "Population: " + properties.population).addTo(countyMap);   
+
+
+
+
+  // //Binding a pop-up to each layer 
+  //  function onEachFeature (data, layer) {
+  //   layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
 }
 
 
@@ -116,16 +150,16 @@ return{
 }
 
 
-function getColor(data){
-return d > 10000000 ? '#800026' :
-d > 2000000  ? '#E31A1C' :
-d > 100000  ? '#FC4E2A' :
-d > 50000  ? '#FD8D3C' :
-d > 20000   ? '#FEB24C' :
-d > 10000  ? '#FED976' :
-           '#FFEDA0';
+// function getColor(data){
+// return d > 10000000 ? '#800026' :
+// d > 2000000  ? '#E31A1C' :
+// d > 100000  ? '#FC4E2A' :
+// d > 50000  ? '#FD8D3C' :
+// d > 20000   ? '#FEB24C' :
+// d > 10000  ? '#FED976' :
+//            '#FFEDA0';
 
-}
+// }
 
 
 L.geoJson(geoData, {style: style}).addTo(countyMap);
@@ -157,6 +191,3 @@ L.geoJson(geoData, {style: style}).addTo(countyMap);
 // Adding legend to the map
 // legend.addTo(countyMap);
 //})
-function mapOverlay(data) {
-  console.log(data)
-}
