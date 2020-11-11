@@ -50,22 +50,76 @@ const url = "/api/county";
               }
           
             })
-          // })
+          }
           
-        }
-        let geoData = [{"type": "FeatureCollection", 
-        "features": {features}}]
+        
+        let geoData = {"features": [{features}]}
         console.log(geoData)
+        // })
+//         // Grab data with d3
+// d3.json (geoData, function(data){
+//   console.log(data)
+// })
+// })
+//   function style(data){
+//     return{
 
-      })
-//L.geoJson(geoData).addTo(countyMap);
+//       fillColor: getColor(data.population),
+//       weight: 2,
+//       fillOpacity: 0.7
+//     }
+
+//   }
+  
+  function getColor(d){
+    return d > 10000000 ? '#800026' :
+    d > 2000000  ? '#E31A1C' :
+    d > 100000  ? '#FC4E2A' :
+    d > 50000  ? '#FD8D3C' :
+    d > 20000   ? '#FEB24C' :
+    d > 10000  ? '#FED976' :
+               '#FFEDA0';
+    
+    }
+
+     //iterate through the returned data
+     for (let i = 1; i < features.length; i++) {
+      let location = features[i].geometery;
+      let properties = features[i].properties;
+      
+
+//   //Binding a pop-up to each layer 
+//    function onEachFeature (data, layer) {
+//     layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
+// }
+
+      console.log(properties);
+      // console.log(location.coordinates[0]);
+    
+      // console.log(properties);
+      
+      // Create a circle at each earthquake point
+      L.circle([location.coordinates[1], location.coordinates[0]], {
+          fillOpacity: 0.95,
+          color: "yellow",
+          weight: 1,
+          fillColor: getColor(properties.population),
+          radius: 25000
+          // }).bindPopup("<h2>" + properties.county + "</h2> <hr> <h3> " + "Population: " + properties.population)
+      }).addTo(countyMap);
+
+
+
+   }        
+
+})
+
+//       })
+// L.geoJson(geoData).addTo(countyMap);
 
 //var geojson
 
-// Grab data with d3
-d3.json (geoData, function(data){
 
-})
 
 
 // geojson = L.choropleth(data, {
@@ -86,47 +140,47 @@ d3.json (geoData, function(data){
 //   }
 
 
-  function style(data){
-    return{
+//   function style(data){
+//     return{
 
-      fillColor: getColor(data.population),
-      weight: 2,
-      fillOpacity: 0.7
-    }
+//       fillColor: getColor(data.population),
+//       weight: 2,
+//       fillOpacity: 0.7
+//     }
 
-  }
+//   }
   
-  function getColor(population){
-    return d > 10000000 ? '#800026' :
-    d > 2000000  ? '#E31A1C' :
-    d > 100000  ? '#FC4E2A' :
-    d > 50000  ? '#FD8D3C' :
-    d > 20000   ? '#FEB24C' :
-    d > 10000  ? '#FED976' :
-               '#FFEDA0';
+//   function getColor(population){
+//     return d > 10000000 ? '#800026' :
+//     d > 2000000  ? '#E31A1C' :
+//     d > 100000  ? '#FC4E2A' :
+//     d > 50000  ? '#FD8D3C' :
+//     d > 20000   ? '#FEB24C' :
+//     d > 10000  ? '#FED976' :
+//                '#FFEDA0';
     
-    }
+//     }
 
-     //iterate through the returned data
-     for (let i = 0; i < features.length; i++) {
-      let location = features[i].geometry;
-      let properties = features[i].properties;
+//      //iterate through the returned data
+//      for (let i = 0; i < features.length; i++) {
+//       let location = features[i].geometry;
+//       let properties = features[i].properties;
 
-  //Binding a pop-up to each layer 
-   function onEachFeature (data, layer) {
-    layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
-}
+//   //Binding a pop-up to each layer 
+//    function onEachFeature (data, layer) {
+//     layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
+// }
 
-      console.log(location);
-      console.log(properties);
+//       console.log(location);
+//       console.log(properties);
       
-      //Create a circle at each earthquake point
-      L.circle([location.coordinates[1], location.coordinates[0]], {
-          fillOpacity: 0.95,
-          color: "black",
-          weight: 1,
-          fillColor: getColor(location.coordinates[2]),
-          }).bindPopup("<h2>" + properties.county + "</h2> <hr> <h3> " + "Population: " + properties.population).addTo(countyMap);   
+//       //Create a circle at each earthquake point
+//       L.circle([location.coordinates[1], location.coordinates[0]], {
+//           fillOpacity: 0.95,
+//           color: "black",
+//           weight: 1,
+//           fillColor: getColor(location.coordinates[2]),
+//           }).bindPopup("<h2>" + properties.county + "</h2> <hr> <h3> " + "Population: " + properties.population).addTo(countyMap);   
 
 
 
@@ -134,20 +188,20 @@ d3.json (geoData, function(data){
   // //Binding a pop-up to each layer 
   //  function onEachFeature (data, layer) {
   //   layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
-}
+// }
 
 
 
-function style(data){
-return{
+// function style(data){
+// return{
 
-  fillColor: getColor(data.population),
-  weight: 2,
-  fillOpacity: 0.7
-}
+//   fillColor: getColor(data.population),
+//   weight: 2,
+//   fillOpacity: 0.7
+// }
 
 
-}
+// }
 
 
 // function getColor(data){
@@ -162,7 +216,7 @@ return{
 // }
 
 
-L.geoJson(geoData, {style: style}).addTo(countyMap);
+// L.geoJson(geoData, {style: style}).addTo(countyMap);
 
 // Set up the legend
 // legend = L.control({position: "bottomright"});
@@ -191,3 +245,7 @@ L.geoJson(geoData, {style: style}).addTo(countyMap);
 // Adding legend to the map
 // legend.addTo(countyMap);
 //})
+
+// function mapOverlay(data){
+//   console.log(data)
+// }
