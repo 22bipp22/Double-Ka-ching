@@ -20,5 +20,14 @@
  - SQLite
  - Python
  
+ ## Tools used
+ 
+ - Webscraping
+ - Leaflet
+ - Mapbox
+ - d3
+ - Bootstrap
+ - Plotly
+ 
  ### Deployment
  - Heroku
