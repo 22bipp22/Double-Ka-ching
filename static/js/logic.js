@@ -1,14 +1,7 @@
 
 // Code for configuration of the map
 
-// Set longitude, latitude, and starting zoom
-// Map it to the div
-// let myMap = L.map("map", {
-//     center: [37.09, -100.71],
-//     zoom: 4
-// });
-
-var countyMap = L.map("map",{
+let countyMap = L.map("map",{
   center:[31.319547, -100.076758],
   zoom: 7
 });
@@ -24,228 +17,186 @@ L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 
 //load in Geojson data 
 
-const url = "/api/county";
+let circleChart = {}
+let mapMarkers = []
+
+function mapOverlay(selection) {  
+  const url = "/api/county";
   d3.json(url).then(function(response) {
 
     console.log(response);
-   
-    let features = [{}]
-    
-    for (let i =0; i < 253; i++) {  
-      features.push({
-          // "type": "FeatureCollection", 
-          // "features": {
-              "type": "Feature",
-              "geometery": {
-                "type": "Point",
-                "coordinates": [response.Latitude[i], response.Longitude[i]]
-              },        
-              "properties": {
-                "county": response.County[i],
-                "income": response["Median Household Income"][i],
-                "population": response.Population[i],
-                "poverty": response["Poverty Percent"][i],
-                "crime": response.Total_Crime[i],
-                "unemployment": response["Unemployment Rate (%)"][i]
-              }
-          
-            })
-          }
-          
-        
-        let geoData = {"features": [{features}]}
-        console.log(geoData)
-        // })
-//         // Grab data with d3
-// d3.json (geoData, function(data){
-//   console.log(data)
-// })
-// })
-//   function style(data){
-//     return{
-
-//       fillColor: getColor(data.population),
-//       weight: 2,
-//       fillOpacity: 0.7
-//     }
-
-//   }
-  
-  function getColor(d){
-    return d > 10000000 ? '#800026' :
-    d > 2000000  ? '#E31A1C' :
-    d > 100000  ? '#FC4E2A' :
-    d > 50000  ? '#FD8D3C' :
-    d > 20000   ? '#FEB24C' :
-    d > 10000  ? '#FED976' :
-               '#FFEDA0';
-    
+       
+    if (mapMarkers != undefined) {
+      for(let i = 0; i < mapMarkers.length; i++){
+        countyMap.removeLayer(mapMarkers[i]);
+      }
     }
 
-     //iterate through the returned data
-     for (let i = 1; i < features.length; i++) {
-      let location = features[i].geometery;
-      let properties = features[i].properties;
-      
+    for (let i =0; i < 253; i++) {
+      switch (selection) {
+        case "Population": 
+          // Create a circle at each county's population 
+          circleChart = L.circle([response.Longitude[i], response.Latitude[i]], {
+            fillOpacity: getColor(response.Population[i]),
+            color: "red",
+            weight: 1,
+            fillColor: "red",
+            radius: 25000
+            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Population: " + response.Population[i] + "</h3>").addTo(countyMap);   
+            mapMarkers.push(circleChart);
+          break;
 
-//   //Binding a pop-up to each layer 
-//    function onEachFeature (data, layer) {
-//     layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
-// }
-
-      console.log(properties);
-      // console.log(location.coordinates[0]);
+        case "Income": 
+            // Create a circle at each county's population 
+          income = parseInt(response["Median Household Income"][i].replace(/,/g, ''))
     
-      // console.log(properties);
-      
-      // Create a circle at each earthquake point
-      L.circle([location.coordinates[1], location.coordinates[0]], {
-          fillOpacity: 0.95,
-          color: "yellow",
-          weight: 1,
-          fillColor: getColor(properties.population),
-          radius: 25000
-          // }).bindPopup("<h2>" + properties.county + "</h2> <hr> <h3> " + "Population: " + properties.population)
-      }).addTo(countyMap);
+          circleChart = L.circle([response.Longitude[i], response.Latitude[i]], {
+            fillOpacity: getColorIncome(income),
+            color: "yellow",
+            weight: 1,
+            fillColor: "yellow",
+            radius: 25000
+            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Median Household Income: $" + response["Median Household Income"][i]+ "</h3>").addTo(countyMap);   
+            mapMarkers.push(circleChart);
+          break;
+
+        case "Poverty": 
+          // Create a circle at each county's population 
+          circleChart = L.circle([response.Longitude[i], response.Latitude[i]], {
+            fillOpacity: getColorPoverty(response["Poverty Percent"][i]),
+            color: "green",
+            weight: 1,
+            fillColor: "green",
+            radius: 25000
+            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Impoverished Residents: " + response["Poverty Percent"][i] + "% </h3>").addTo(countyMap);   
+            mapMarkers.push(circleChart);
+          break;
+
+        case "Crime": 
+          // Create a circle at each county's population 
+          circleChart = L.circle([response.Longitude[i], response.Latitude[i]], {
+            fillOpacity: getColorCrime(response.Total_Crime[i]),
+            color: "blue",
+            weight: 1,
+            fillColor: 'blue',
+            radius: 25000
+            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Criminal Incidents: " + response.Total_Crime[i]+ "</h3>").addTo(countyMap);   
+            mapMarkers.push(circleChart);
+          break;
+
+        case "Unemployment": 
+          // Create a circle at each county's population 
+          circleChart = L.circle([response.Longitude[i], response.Latitude[i]], {
+            fillOpacity: getColorUnemploy(response["Unemployment Rate (%)"][i]),
+            color: "orange",
+            weight: 1,
+            fillColor: "orange",
+            radius: 25000
+            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Unemployment Rate: " + response["Unemployment Rate (%)"][i] + "% </h3>").addTo(countyMap);   
+            mapMarkers.push(circleChart);
+          break;
+
+      }
+    
+    }  
+
+  })
+
+}
 
 
-
-   }        
-
-})
-
-//       })
-// L.geoJson(geoData).addTo(countyMap);
-
-//var geojson
-
-
-
-
-// geojson = L.choropleth(data, {
-//  // Define what  property in the features to use
-//   valueProperty: 'Population',
-//   //Set color scale
-//   scale: ["#fc9272", "#de2d26"],
-
-//   //Number of breaks in step range
-//   steps: 10,
-//   //q for quantile, e for equidistant, k for k-means
-//   mode: "q",
-//   border styling
-//   style: {
-//    color: "#fff",
-//     weight: 1,
-//     fillOpacity: 0.8
-//   }
-
-
-//   function style(data){
-//     return{
-
-//       fillColor: getColor(data.population),
-//       weight: 2,
-//       fillOpacity: 0.7
-//     }
-
-//   }
+//Get the color for the population circles
+function getColor(d){
+  return  d > 4000000 ? '100%' :
+          d > 1000000 ? '80%' :
+          d > 500000  ? '60%' :
+          d > 100000  ? '40%' :
+          d > 50000   ? '20%' :
+          d > 10000   ? '5%' :
+                        '5%' ;
+                         
   
-//   function getColor(population){
-//     return d > 10000000 ? '#800026' :
-//     d > 2000000  ? '#E31A1C' :
-//     d > 100000  ? '#FC4E2A' :
-//     d > 50000  ? '#FD8D3C' :
-//     d > 20000   ? '#FEB24C' :
-//     d > 10000  ? '#FED976' :
-//                '#FFEDA0';
-    
-//     }
+}
+function getColorIncome(d){
+  return  d > 100000 ? '100%' :
+          d > 80000  ? '75%' :
+          d > 60000  ? '50%' :
+          d > 40000  ? '25%' :
+          d > 30000  ? '5%' :
+                       '5%';                        
+  
+}
 
-//      //iterate through the returned data
-//      for (let i = 0; i < features.length; i++) {
-//       let location = features[i].geometry;
-//       let properties = features[i].properties;
+function getColorPoverty(d){
+  return  d > 30 ? '100%' :
+          d > 20  ? '75%' :
+          d > 10  ? '50%' :
+          d > 5  ?  '25%' :
+                      '5%';                        
+  
+}
 
-//   //Binding a pop-up to each layer 
-//    function onEachFeature (data, layer) {
-//     layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
-// }
+function getColorCrime(d){
+  return  d > 40000 ? '100%' :
+          d > 10000 ? '75%' :
+          d > 1000  ? '50%' :
+          d > 100   ? '25%' :
+                      '5%';                        
+  
+}
 
-//       console.log(location);
-//       console.log(properties);
-      
-//       //Create a circle at each earthquake point
-//       L.circle([location.coordinates[1], location.coordinates[0]], {
-//           fillOpacity: 0.95,
-//           color: "black",
-//           weight: 1,
-//           fillColor: getColor(location.coordinates[2]),
-//           }).bindPopup("<h2>" + properties.county + "</h2> <hr> <h3> " + "Population: " + properties.population).addTo(countyMap);   
+function getColorUnemploy(d){
+  return  d > 10 ? '100%' :
+          d > 7  ? '75%' :
+          d > 5  ? '50%' :
+          d > 1  ? '25%' :
+                     '5%';                        
+  
+}
 
-
-
-
-  // //Binding a pop-up to each layer 
-  //  function onEachFeature (data, layer) {
-  //   layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
-// }
-
-
-
-// function style(data){
-// return{
-
-//   fillColor: getColor(data.population),
-//   weight: 2,
-//   fillOpacity: 0.7
-// }
-
-
+// function getColor(d){
+//   return  d > 10000000 ? '#800026' :
+//           d > 2000000  ? '#E31A1C' :
+//           d > 100000   ? '#FC4E2A' :
+//           d > 50000    ? '#FD8D3C' :
+//           d > 20000    ? '#FEB24C' :
+//           d > 10000    ? '#FED976' :
+//                          '#FFEDA0';
+  
 // }
 
 
-// function getColor(data){
-// return d > 10000000 ? '#800026' :
-// d > 2000000  ? '#E31A1C' :
-// d > 100000  ? '#FC4E2A' :
-// d > 50000  ? '#FD8D3C' :
-// d > 20000   ? '#FEB24C' :
-// d > 10000  ? '#FED976' :
-//            '#FFEDA0';
 
-// }
+///**Code to make GEOJson .... Not needed
 
+// let features = [{}]
+    //   features.push({
+    //       // "type": "FeatureCollection", 
+    //       // "features": {
+    //           "type": "Feature",
+    //           "geometery": {
+    //             "type": "Point",
+    //             "coordinates": [response.Latitude[i], response.Longitude[i]]
+    //           },        
+    //           "properties": {
+    //             "county": response.County[i],
+    //             "income": response["Median Household Income"][i],
+    //             "population": response.Population[i],
+    //             "poverty": response["Poverty Percent"][i],
+    //             "crime": response.Total_Crime[i],
+    //             "unemployment": response["Unemployment Rate (%)"][i]
+    //           }
+          
+    //         })
+    //       } 
+        
+    //   let geoData = {"features": [{features}]}
+    //     console.log(geoData)
 
-// L.geoJson(geoData, {style: style}).addTo(countyMap);
+    //  //iterate through the returned data
+    //  for (let i = 1; i < features.length; i++) {
+    //     let location = features[i].geometery;
+    //     let properties = features[i].properties;
+  
 
-// Set up the legend
-// legend = L.control({position: "bottomright"});
-// legend.onAdd = function() {
-  //let div = L.DomUtil.create("div", "info legend");
-  //let limits = geojson.options.limits;
-  //let colors = geojson.options.colors;
-  //let labels = [];
-  // Add min & max
-  //var legendInfo = "<h1>Population</h1>" +
-    //"<div class=\"labels\">" +
-     // "<div class=\"min\">" + limits[0] + "</div>" +
-     // "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-   //"</div>";
-
-  //div.innerHTML = legendInfo;
-
- // limits.forEach(function(limit, index) {
-   // labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-  //});
-
- // div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-  //return div;
-//};
-
-// Adding legend to the map
-// legend.addTo(countyMap);
-//})
-
-// function mapOverlay(data){
-//   console.log(data)
-// }
+      // console.log(properties); */
