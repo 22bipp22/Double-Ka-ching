@@ -13,12 +13,11 @@ Double-Ka-ching is a site that will allow a user to determine which county is th
  - Median household income
  
  ## Technology used
- 
- ### Front-end
- - Bootstrap
- ### Back-end
- - d3
- ### Database
+
+ - HTML
+ - CSS
+ - Java script
  - SQLite
+ 
  ### Deployment
  - Heroku
