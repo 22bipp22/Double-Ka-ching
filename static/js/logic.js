@@ -112,6 +112,10 @@ d3.json (geoData, function(data){
       let location = features[i].geometry;
       let properties = features[i].properties;
 
+  //Binding a pop-up to each layer 
+   function onEachFeature (data, layer) {
+    layer.bindPopup("County: " + data.properties.County + "<br>Population<br>" + data.properties.Population)
+}
 
       console.log(location);
       console.log(properties);
