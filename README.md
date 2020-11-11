@@ -1,7 +1,7 @@
 # Double-Ka-ching
 
-## Live Page
-https://double-kaching-tx-counties.herokuapp.com/
+## Live Page 
+[Click here] https://double-kaching-tx-counties.herokuapp.com/
 
 ## Team members
 - Tammi Bippert
