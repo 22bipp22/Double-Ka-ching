@@ -18,6 +18,7 @@
  - CSS
  - Java script
  - SQLite
+ - Python
  
  ### Deployment
  - Heroku
