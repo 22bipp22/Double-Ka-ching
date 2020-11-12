@@ -92,8 +92,8 @@ function county_poverty(countyName) {
             },
       }
   ];
-  let layout = { width: 600,
-      height: 600,
+  let layout = { width: 300,
+      height: 300,
       margin: { t: 45, b: 10 },
       title: "Poverty Rate",
       font: { color: "royalblue", family: "Arial", size: 18 },    
@@ -142,8 +142,8 @@ function county_unemployed(countyName) {
             },
       }
   ];
-  let layout = { width: 600,
-      height: 600,
+  let layout = { width: 300,
+      height: 300,
       margin: { t: 45, b: 10 },
       title: "Unemployment Rate",
       font: { color: "royalblue", family: "Arial", size: 18 },       
@@ -206,3 +206,4 @@ function county_crime(countyName) {
   
 
 }
+  

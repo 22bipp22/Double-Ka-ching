@@ -13,12 +13,12 @@ body,
   
 }
 
-#povertyDiv {
-  height: 10%;
+.main-svg {
+  height: 100%;
   padding: 10;
   margin-left: 10;
   margin-bottom: 20;
-  width: 10%;
+  width: 100%;
   
 }
 
