@@ -222,7 +222,6 @@ function county_crime(countyName) {
     Plotly.newPlot('crimeDiv', trace3, layout);
 
   });
-  
 
 }
   
