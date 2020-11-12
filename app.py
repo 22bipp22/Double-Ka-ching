@@ -56,7 +56,7 @@ def county():
     return jsonify(data)
 
 
-@app.route("/send")
+@app.route("/send", methods=["GET", "POST"])
 def send():
     # if request.method == "POST":
     #     name = request.form["petName"]
