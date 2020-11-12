@@ -3,7 +3,7 @@
 
 let countyMap = L.map("map",{
   center:[31.319547, -100.076758],
-  zoom: 7
+  zoom: 6
 });
 
 // add tile layer
@@ -45,13 +45,14 @@ function mapOverlay(selection) {
             color: "red",
             weight: 1,
             fillColor: "red",
-            radius: 25000
+            radius: (response.Total_Area[i] * 20)
             }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Population: " + response.Population[i] + "</h3>").addTo(countyMap);   
             mapMarkers.push(circleChart);
           break;
     
         case "Income": 
-          income = parseInt(response["Median Household Income"][i].replace(/,/g, ''))
+            console.log(response.Median_Household_Income[i])
+          income = response.Median_Household_Income[i]
     // Create a circle at each county's median house income
     //add tooltip to display county's median house income and name 
           circleChart = L.circle([response.Longitude[i], response.Latitude[i]], {
@@ -59,8 +60,8 @@ function mapOverlay(selection) {
             color: "yellow",
             weight: 1,
             fillColor: "yellow",
-            radius: 25000
-            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Median Household Income: $" + response["Median Household Income"][i]+ "</h3>").addTo(countyMap);   
+            radius: (response.Total_Area[i] * 20)
+            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Median Household Income: $" + response.Median_Household_Income[i]+ "</h3>").addTo(countyMap);   
             mapMarkers.push(circleChart);
           break;
  
@@ -68,12 +69,12 @@ function mapOverlay(selection) {
      // Create a circle at each county's poverty percent
     //add tooltip to display county's population and name
           circleChart = L.circle([response.Longitude[i], response.Latitude[i]], {
-            fillOpacity: getColorPoverty(response["Poverty Percent"][i]),
+            fillOpacity: getColorPoverty(response.Poverty_Percent[i]),
             color: "green",
             weight: 1,
             fillColor: "green",
-            radius: 25000
-            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Impoverished Residents: " + response["Poverty Percent"][i] + "% </h3>").addTo(countyMap);   
+            radius: (response.Total_Area[i] * 20)
+            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Impoverished Residents: " + response.Poverty_Percent[i] + "% </h3>").addTo(countyMap);   
             mapMarkers.push(circleChart);
           break;
 
@@ -85,7 +86,7 @@ function mapOverlay(selection) {
             color: "blue",
             weight: 1,
             fillColor: 'blue',
-            radius: 25000
+            radius: (response.Total_Area[i] * 20)
             }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Criminal Incidents: " + response.Total_Crime[i]+ "</h3>").addTo(countyMap);   
             mapMarkers.push(circleChart);
           break;
@@ -94,12 +95,12 @@ function mapOverlay(selection) {
           // Create a circle at each county's population 
           //add tooltip to display county's unemployment rate
           circleChart = L.circle([response.Longitude[i], response.Latitude[i]], {
-            fillOpacity: getColorUnemploy(response["Unemployment Rate (%)"][i]),
+            fillOpacity: getColorUnemploy(response.Unemployment_Rate[i]),
             color: "orange",
             weight: 1,
             fillColor: "orange",
-            radius: 25000
-            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Unemployment Rate: " + response["Unemployment Rate (%)"][i] + "% </h3>").addTo(countyMap);   
+            radius: (response.Total_Area[i] * 20)
+            }).bindPopup("<h2>" + response.County[i] + "</h2> <hr> <h3> " + "Unemployment Rate: " + response.Unemployment_Rate[i] + "% </h3>").addTo(countyMap);   
             mapMarkers.push(circleChart);
           break;
 
