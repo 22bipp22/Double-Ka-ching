@@ -1,6 +1,6 @@
 let select_tag = d3.select("#selDataset");
 
-d3.csv("../output/complete.csv").then(function (data) {
+d3.csv("/static/complete.csv").then(function (data) {
   select_tag
     .append("option")
     .property("value", "")
@@ -25,7 +25,7 @@ function optionChanged(name) {
 }
 
 function county_info(countyName) {
-  d3.csv("../output/complete.csv").then(function (data) {
+  d3.csv("/static/complete.csv").then(function (data) {
     data.forEach(function (d) {
       if (d.County == countyName) {
         income = d3.format("($,.2f")(d.Median_Household_Income)
@@ -57,7 +57,7 @@ function county_info(countyName) {
 // }
 
 function county_poverty(countyName) {
-  d3.csv("../output/complete.csv").then(function (data) {
+  d3.csv("/static/complete.csv").then(function (data) {
     data.forEach(function (d) {
       if (d.County == countyName) {
         poverty_pop = d.Population * (d.Poverty_Percent*.01);
@@ -107,7 +107,7 @@ function county_poverty(countyName) {
 }
 
 function county_unemployed(countyName) {
-  d3.csv("../output/complete.csv").then(function (data) {
+  d3.csv("/static/complete.csv").then(function (data) {
     data.forEach(function (d) {
       if (d.County == countyName) {
         unemployed_pop = d.Population * (d.Unemployment_Rate*.01);
@@ -157,7 +157,7 @@ function county_unemployed(countyName) {
 }
 
 function county_crime(countyName) {
-  d3.csv("../output/complete.csv").then(function (data) {
+  d3.csv("/static/complete.csv").then(function (data) {
     data.forEach(function (d) {
       if (d.County == countyName) {
         violent_crime= (d.Violent_Crime / d.Total_Crime)*.01;
